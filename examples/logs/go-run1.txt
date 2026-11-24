@@ -1,0 +1,7 @@
+2026-11-23T03:56:19.7543671Z Cache mode: write
+2026-11-23T03:56:20.0000000Z ##[group]Run actions/setup-go@v5
+2026-11-23T03:56:20.0000000Z with:
+2026-11-23T03:56:20.0000000Z   go-version: 1.27.3
+2026-11-23T03:56:20.0000000Z   cache: true
+2026-11-23T03:56:20.0000000Z ##[endgroup]
+2026-11-23T03:56:25.0000000Z ##[warning]Restore cache failed: Dependencies file is not found in /home/runner/work/app/app. Supported file pattern: go.mod

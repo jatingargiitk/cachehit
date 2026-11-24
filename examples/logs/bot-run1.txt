@@ -1,0 +1,15 @@
+2026-11-22T09:00:01.0000000Z Cache mode: read
+2026-11-22T09:00:04.0000000Z ##[group]Run actions/setup-node@v4
+2026-11-22T09:00:04.1000000Z with:
+2026-11-22T09:00:04.1000000Z   node-version: 22
+2026-11-22T09:00:04.1000000Z   cache: npm
+2026-11-22T09:00:04.2000000Z ##[endgroup]
+2026-11-22T09:00:06.0000000Z npm cache is not found
+2026-11-22T09:00:08.0000000Z ##[group]Run actions/cache/restore@v4
+2026-11-22T09:00:08.1000000Z with:
+2026-11-22T09:00:08.1000000Z   path: models
+2026-11-22T09:00:08.1000000Z   key: models-
+2026-11-22T09:00:08.2000000Z ##[endgroup]
+2026-11-22T09:00:09.0000000Z Cache not found for input keys: models-
+2026-11-22T09:01:01.0000000Z Post job cleanup.
+2026-11-22T09:01:02.0000000Z Cache save skipped: the effective cache-mode 'read' does not permit writes.

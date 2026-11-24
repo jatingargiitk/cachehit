@@ -1,0 +1,17 @@
+2026-11-20T05:00:01.0000000Z Cache mode: write
+2026-11-20T05:00:02.0000000Z ##[group]Run actions/checkout@v4
+2026-11-20T05:00:03.0000000Z ##[endgroup]
+2026-11-20T05:00:04.0000000Z ##[group]Run actions/cache@v4
+2026-11-20T05:00:04.1000000Z with:
+2026-11-20T05:00:04.1000000Z   path: .tox
+2026-11-20T05:00:04.1000000Z   key: tox-Linux-3c1f0b7e9a
+2026-11-20T05:00:04.1000000Z   restore-keys: tox-Linux-
+2026-11-20T05:00:04.2000000Z ##[endgroup]
+2026-11-20T05:00:05.0000000Z Cache hit for restore-key: tox-Linux-9be0d41a77
+2026-11-20T05:00:06.0000000Z Cache Size: ~48 MB (50331648 B)
+2026-11-20T05:00:07.0000000Z Cache restored successfully
+2026-11-20T05:00:07.1000000Z Cache restored from key: tox-Linux-9be0d41a77
+2026-11-20T05:00:08.0000000Z ##[group]Run pytest
+2026-11-20T05:01:00.0000000Z ##[endgroup]
+2026-11-20T05:01:01.0000000Z Post job cleanup.
+2026-11-20T05:01:02.0000000Z Cache saved with key: tox-Linux-3c1f0b7e9a
