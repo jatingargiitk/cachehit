@@ -73,3 +73,35 @@ def test_no_workflows_exit_2(tmp_path):
 def test_module_entrypoint_version():
     out = subprocess.run([sys.executable, "-m", "cachehit", "--version"], capture_output=True, text=True, cwd=ROOT)
     assert out.stdout.strip().startswith("cachehit 0.1.0")
+
+
+def test_runs_with_fake_gh(monkeypatch, tmp_path, capsys):
+    from cachehit import cli
+
+    log = open(os.path.join(ROOT, "examples", "logs", "ci-ubuntu-run2.txt")).read()
+
+    def fake_json(path):
+        if path.startswith("repos/o/r/actions/workflows/ci.yml/runs"):
+            assert "status=completed" in path
+            return {"workflow_runs": [{"id": 1, "name": "CI"}, {"id": 2, "name": "CI"}]}
+        if path.endswith("/jobs?per_page=100"):
+            return {"jobs": [{"id": 10, "name": "test", "conclusion": "success", "steps": [{}]},
+                             {"id": 11, "name": "skip", "conclusion": "skipped", "steps": []}]}
+        raise AssertionError(path)
+
+    monkeypatch.setattr(cli, "api_json", fake_json)
+    monkeypatch.setattr(cli, "api_text", lambda path: log)
+    rc = cli.main(["runs", "o/r", "--workflow", "ci.yml", "--limit", "2", "--save-logs", str(tmp_path)])
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "2 job logs read" in out
+    assert "CI / actions/cache@v4" in out and "100%" in out
+    assert sorted(os.listdir(tmp_path)) == ["1-10.txt", "2-10.txt"]
+
+
+def test_runs_without_gh(monkeypatch, capsys):
+    from cachehit import gh
+
+    monkeypatch.setattr(gh.shutil, "which", lambda name: None)
+    assert main(["runs", "o/r"]) == 2
+    assert "gh" in capsys.readouterr().err

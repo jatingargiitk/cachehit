@@ -54,7 +54,10 @@ def cmd_check(args):
             )
         )
     else:
-        print("cachehit: %d workflows, %d cache steps, default branch %s" % (len(workflows), nsteps, branch))
+        print(
+            "cachehit: %d workflow%s, %d cache step%s, default branch %s"
+            % (len(workflows), "" if len(workflows) == 1 else "s", nsteps, "" if nsteps == 1 else "s", branch)
+        )
         for w in workflows:
             if w.error:
                 print("  skipped %s: %s" % (os.path.relpath(w.path, root), w.error))
@@ -141,6 +144,10 @@ def cmd_runs(args):
                 except GhError:
                     continue  # logs expired or not accessible
                 t.add(run.get("name") or "?", job.get("name") or "?", text)
+                if args.save_logs:
+                    os.makedirs(args.save_logs, exist_ok=True)
+                    with open(os.path.join(args.save_logs, "%d-%d.txt" % (run["id"], job["id"])), "w", encoding="utf-8") as fh:
+                        fh.write(text)
     except GhError as exc:
         print("cachehit: %s" % exc, file=sys.stderr)
         return 2
@@ -203,6 +210,7 @@ def build_parser():
     r.add_argument("--branch")
     r.add_argument("--event", help="e.g. push, pull_request")
     r.add_argument("--limit", type=int, default=5, help="runs to read (default 5)")
+    r.add_argument("--save-logs", metavar="DIR", help="also write each job log to DIR (re-read later with `cachehit logs`)")
     r.set_defaults(func=cmd_runs)
 
     k = sub.add_parser("caches", help="summarise the repo's cache entries (uses `gh api`)")
