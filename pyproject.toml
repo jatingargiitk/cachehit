@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cachehit"
+version = "0.1.0"
+description = "Why your GitHub Actions caches miss, and whether they can save at all: static workflow checks, hit rates from run logs, and a cache-storage breakdown."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+dependencies = ["PyYAML>=5.1"]
+authors = [{ name = "Jatin Garg" }]
+keywords = ["github-actions", "ci", "cache", "actions-cache", "cache-mode"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.scripts]
+cachehit = "cachehit.cli:main"
+
+[tool.setuptools]
+packages = ["cachehit"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
